@@ -213,7 +213,7 @@ export const toolSchemas = {
         },
         order: {
           type: 'string',
-          description: 'Optional: Where to add the content undeIs this tr the parent ("first" or "last")',
+          description: 'Optional: Where to add the content under the parent ("first" or "last"). Defaults to "first".',
           enum: ['first', 'last'],
           default: 'first'
         }
@@ -725,6 +725,12 @@ export const toolSchemas = {
           minimum: 0,
           maximum: 10,
           default: 4
+        },
+        max_references: {
+          type: 'integer',
+          description: 'Maximum number of linked references to return. Prevents timeouts on heavily-referenced pages (e.g. TODO, common tags). Defaults to 200.',
+          minimum: 1,
+          default: 200
         }
       }),
       required: ['title']
@@ -732,7 +738,7 @@ export const toolSchemas = {
   },
   roam_get_subpages: {
     name: 'roam_get_subpages',
-    description: 'Fetch all sub-pages (namespace children) of a given page prefix. In Roam, pages titled "Prefix/Something" are sub-pages of "Prefix" and appear in the Hierarchy section of that page. Optionally filter to only sub-pages containing a specific tag (e.g. filter active projects with filter_tag="active"), and optionally include each sub-page\'s full block content.',
+    description: 'Fetch all sub-pages (namespace children) of a given page prefix. Matches by page title prefix — pages titled "Prefix/Something" are sub-pages of "Prefix" and appear in the Hierarchy section of that page. This is namespace/title-prefix matching, distinct from roam_search_hierarchy which traverses block parent/child relationships. Optionally filter to only sub-pages containing a specific tag (e.g. filter active projects with filter_tag="active"), and optionally include each sub-page\'s full block content.',
     inputSchema: {
       type: 'object',
       properties: withMultiGraphParams({
